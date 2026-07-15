@@ -1,1 +1,99 @@
+/*Scenario 1
+You work for an e-commerce company.
+The company stores product information in the following table.
+Table: products
+Column	Type
+product_id	INT
+product_name	VARCHAR
+category	VARCHAR
+brand	VARCHAR
+price	DECIMAL(8,2)
+stock	INT
 
+Task
+Display all information for products that satisfy all of the following conditions:
+Category is Electronics
+Price is greater than 20,000
+Stock is more than 0
+
+Sort the result by:
+Highest price first
+If two products have the same price, sort by product name alphabetically.
+*/
+
+-----------------------------------------SQL QUERY-----------------------------------------
+CREATE DATABASE E_Commerce;
+
+use E_Commerce;
+
+CREATE TABLE products(
+	product_id INT not null,
+	product_name VARCHAR(100),
+	category VARCHAR(100),
+	brand VARCHAR(100),
+	price DECIMAL(8,2),
+	stock INT,
+	constraint pk_product_id primary key (product_id)
+);
+
+INSERT INTO products(product_id,product_name,category,brand,price,stock)
+VALUES (101,'Fridge','Electronics','Samsung',23000.00,45),
+(102,'Mobile','Electronics','Samsung',25000.00,10),
+(103,'Laptop','Electronics','HP',67000.00,20),
+(104,'Table','Furniture','Ikea',1000.00,200),
+(105,'Chair','Furniture','Ikea',2000.00,50),
+(106,'Fan','Electronics','Bajaj',4000.00,2),
+(107,'Shoes','FootWear','Nike',8000.00,0),
+(108,'Shoes','FootWear','Adidas',6000.00,5),
+(109,'Fan','Electronics','Orbit',2000.00,1),
+(110,'Fan','Electronics','Htel',1000.00,9),
+(111,'Fan','Electronics','Bajaj',23000.00,5)
+
+
+SELECT 
+	*
+FROM products
+WHERE category = 'Electronics' 
+      AND price>20000 
+      AND stock>0
+ORDER BY price DESC,
+		 product_name ASC
+
+--------------------------------------------------------------------------------
+
+/*
+Scenario 2
+The HR team wants to identify products that need attention.
+Using the same products table, write a query to display:
+product_id
+product_name
+brand
+price
+stock
+
+Conditions
+Return products that satisfy either of these conditions:
+The product belongs to the Furniture category.
+OR the product has less than or equal to 5 units in stock.
+Additional Requirements
+Exclude products whose price is less than 1500.
+Sort the results by:
+Stock in ascending order (lowest stock first)
+Price in descending order
+*/
+
+-----------------------------------------SQL QUERY-----------------------------------------
+
+SELECT
+	product_id,
+	product_name,
+	brand,
+	price,
+	stock
+FROM products
+WHERE (category='Furniture' OR stock<=5) 
+	  AND price>=1500
+ORDER BY stock ASC,
+		 price DESC
+
+---------------------------------------------------------------------------------
