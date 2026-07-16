@@ -97,3 +97,188 @@ ORDER BY stock ASC,
 		 price DESC
 
 ---------------------------------------------------------------------------------
+
+USE E_Commerce
+
+/*Scenario
+
+You are a Data Analyst at an electronics retail company.
+
+The inventory manager wants to know which brands have sufficient stock available.
+Write a query to display:
+
+Brand name
+Number of products under each brand
+Total stock available for that brand
+
+Only include brands that:
+
+Have at least 2 products
+Have a total stock of 20 or more
+
+Sort the results by total stock (highest first). */
+
+-----------------------------------------SQL QUERY-----------------------------------------
+
+SELECT 
+	brand,
+	COUNT(*) AS [Number of Products],
+	SUM(stock) AS [Total stock available]
+FROM products
+GROUP BY brand
+HAVING COUNT(*) >= 2
+	   AND SUM(stock) >= 20
+ORDER BY SUM(stock) DESC
+
+----------------------------------------------------------------------------------
+
+/*Scenario
+
+Your manager wants to identify categories where products are generally expensive.
+
+For each category, display:
+
+Category
+Number of products
+Average product price
+Highest product price
+
+Only include categories where:
+
+Average product price is greater than ₹15,000
+Highest product price is greater than ₹50,000
+
+Sort by average price in descending order.
+*/
+
+-----------------------------------------SQL QUERY-----------------------------------------
+
+SELECT
+	category,
+	COUNT(*) AS [No. of Products],
+	AVG(price) AS [Average Price],
+	MAX(price) AS [Maximuim Price]
+from products
+GROUP BY category
+HAVING AVG(price) > 15000
+       AND MAX(price) > 50000
+ORDER BY AVG(price) DESC
+
+----------------------------------------------------------------------------------
+
+/*Scenario
+
+The warehouse team wants to identify brands that require restocking.
+
+For each brand, display:
+
+Brand
+Total number of products
+Total stock
+Lowest product price
+
+Only consider products where:
+
+Stock is greater than 0
+Category is not Furniture
+
+After grouping, display only those brands whose total stock is less than 30.
+
+Sort by total stock ascending.
+*/
+
+-----------------------------------------SQL QUERY-----------------------------------------
+
+SELECT
+	brand,
+	COUNT(*) AS [Total no. Products],
+	SUM(stock) AS [Total Stock],
+	MIN(price) AS [Lowest Price]
+FROM products
+WHERE stock > 0
+      AND category <> 'Furniture'
+GROUP BY brand
+HAVING SUM(stock) < 30
+ORDER BY SUM(stock) ASC
+
+----------------------------------------------------------------------------------
+
+/*Scenario
+
+Before publishing the annual product catalog, the company wants to review categories with a diverse product range.
+
+For each category, display:
+
+Category
+Total products
+Average price
+Lowest price
+Highest price
+
+Only include categories that:
+
+Have at least 3 products
+Average price is between ₹5,000 and ₹40,000
+Lowest price is greater than ₹1,000
+
+Sort by highest price descending.*/
+
+-----------------------------------------SQL QUERY-----------------------------------------
+
+SELECT
+	category,
+	COUNT(*) as [Total Products],
+	AVG(price) AS [Average Price],
+	MIN(price) AS [Lowest Price],
+	MAX(price) AS [Highest Price]
+FROM products
+GROUP BY category
+HAVING COUNT(*) >= 3
+	   AND AVG(price) BETWEEN 5000 and 40000
+	   AND MIN(price) > 1000
+ORDER BY MAX(price) DESC
+
+----------------------------------------------------------------------------------
+
+/*Scenario
+
+The CEO wants a summary of high-performing brands.
+
+For each brand, display:
+
+Brand
+Total products
+Total stock
+Average price
+Maximum price
+
+Only include brands that satisfy all of the following:
+
+Brand has at least 2 products
+Total stock is between 10 and 100
+Average price is greater than ₹10,000
+Maximum price is at least ₹20,000
+
+Sort the result by:
+
+Average price (descending)
+Brand name (ascending)*/
+
+-----------------------------------------SQL QUERY-----------------------------------------
+
+SELECT
+	brand,
+	COUNT(*) as [Total Products],
+	SUM(stock) AS [Total Stock],
+	AVG(price) AS [Average Price],
+	MAX(price) AS [Highest Price]
+FROM products
+GROUP BY brand
+HAVING COUNT(*) >= 2
+      AND SUM(stock) BETWEEN 10 AND 100
+	  AND AVG(price) >10000
+	  AND MAX(price) >= 20000
+ORDER BY AVG(price) DESC,
+		 brand ASC
+
+------------------------------------------------------------------------------------------------------
