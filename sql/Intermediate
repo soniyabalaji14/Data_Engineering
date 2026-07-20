@@ -137,3 +137,167 @@ ORDER BY o.order_id ASC,
 
 --------------------------------------------------------------------------------------------------------------
 
+/*Scenario – Monthly Sales Report
+
+You are a Data Analyst at an e-commerce company.
+
+The Sales Manager wants a report showing every purchase made by customers.
+
+Display:
+
+Order ID
+Order Date
+Customer Name
+City
+Product Name
+Category
+Quantity
+Unit Price
+
+Sort the report by:
+
+Order Date (latest first)
+Customer Name (ascending)
+Product Name (ascending)*/
+
+---------------------------------------SQL Query-----------------------------------------------------------------------
+
+SELECT
+    o.order_id as [Order ID],
+    o.order_date as [Order Date],
+    c.customer_name as [Customer],
+    c.city as [City],
+    p.product_name as [Product],
+    p.category as [Category],
+    oi.quantity as [Quantity],
+    p.price as [Unit Price]
+FROM customers as c
+INNER JOIN orders as o
+ON c.customer_id = o.customer_id
+INNER JOIN order_items as oi
+ON o.order_id = oi.order_id
+INNER JOIN product as p
+ON oi.product_id = p.product_id 
+ORDER BY o.order_date DESC,
+         c.customer_name ASC,
+         p.product_name ASC
+
+--------------------------------------------------------------------------------------------------------------
+
+/*Scenario - Customer Engagement Campaign
+
+The Marketing team is planning a re-engagement campaign.
+
+They want to identify customers who have registered on the platform but have never placed an order.
+
+Display:
+
+Customer ID
+Customer Name
+City
+
+Sort by Customer Name.*/
+
+---------------------------------------SQL Query-----------------------------------------------------------------------
+
+SELECT
+    c.customer_id as [Customer ID],
+    c.customer_name as [Customer],
+    c.city as [City]
+FROM customers as c
+LEFT JOIN orders as o
+ON c.customer_id = o.customer_id
+WHERE o.customer_id is NULL
+ORDER BY c.customer_name ASC
+
+--------------------------------------------------------------------------------------------------------------
+
+/*Scenario  – Organization Hierarchy
+
+The HR department wants to review the reporting structure.
+
+Prepare a report displaying:
+
+Employee ID
+Employee Name
+Manager Name
+Employee Department
+
+Include employees even if they don't report to anyone.
+
+Sort by Employee Name.*/
+
+---------------------------------------SQL Query-----------------------------------------------------------------------
+
+SELECT 
+    e.employee_id as [Employee ID],
+    e.employee_name as [Emplyoyee],
+    m.employee_name as [Manager],
+    e.department as [Department]
+FROM employees as e
+LEFT JOIN employees as m
+ON e.manager_id = m.employee_id
+ORDER BY e.employee_name ASC
+
+--------------------------------------------------------------------------------------------------------------
+
+/*Scenario  – Promotional Campaign Planner
+
+The Marketing team is launching a new product campaign.
+
+They want to generate every possible combination of:
+
+Customer
+Product
+
+Display:
+
+Customer Name
+City
+Product Name
+Category
+
+Sort by Customer Name and then Product Name.*/
+
+---------------------------------------SQL Query-----------------------------------------------------------------------
+
+SELECT
+    c.customer_name as [Customer],
+    c.city as [City],
+    p.product_name as [Product],
+    p.category as [Category]
+FROM customers as c
+CROSS JOIN product as p
+ORDER BY c.customer_name ASC,
+         p.product_name ASC
+
+--------------------------------------------------------------------------------------------------------------
+
+/* Scenario - The Data Engineering team is auditing the order database.
+
+They suspect that some orders reference customers who no longer exist in the customer master table.
+
+Prepare a report displaying:
+
+Order ID
+Customer ID
+Order Date
+Total Amount
+
+Return only the records where the corresponding customer information is unavailable.
+
+Sort by Order Date (latest first).*/
+
+---------------------------------------SQL Query-----------------------------------------------------------------------
+
+SELECT
+    o.order_id as [Order ID],
+    o.customer_id as [Customer ID],
+    o.order_date as [Order Date],
+    o.total_amount as [Total Amount]
+FROM orders as o
+LEFT JOIN customers as c
+ON o.customer_id = c.customer_id
+WHERE c.customer_id is null
+
+--------------------------------------------------------------------------------------------------------------
